@@ -16,7 +16,7 @@ namespace :create do
      desc 'Creates a single radiant page as a child of the supplied path.'
      task :child, :name, :parent, :needs => :environment do |t, args|
         args.with_defaults(:name => "generated", :parent => "")
-        existing_page = ComatosePage.find_by_url("/#{args.parent}#{slugify(args.name)}")
+        existing_page = ComatosePage.find_by_path("/#{args.parent}#{slugify(args.name)}")
         
         # test if the page exists
         if !existing_page
@@ -25,9 +25,9 @@ namespace :create do
 
 Phasellus turpis turpis, scelerisque sit amet, accumsan vel, sollicitudin a, elit. Pellentesque id erat in ante dictum convallis. Donec sed turpis vel leo blandit suscipit. In ligula urna, pellentesque nec, interdum pharetra, tincidunt a, dolor. Etiam cursus pharetra nisl. Ut aliquam, nisi id varius dignissim, orci ligula posuere nisi, vel vehicula metus elit vitae lorem. Cras urna quam, fermentum eu, aliquam sed, bibendum eget, lorem. Vestibulum congue. Integer blandit magna vitae dolor. Phasellus imperdiet vulputate nibh. Proin pellentesque. Aliquam pulvinar suscipit purus. Donec gravida volutpat nisl. Donec arcu. Curabitur mi ipsum, dapibus id, faucibus in, sagittis non, libero."
 
-          parent = ComatosePage.find_by_url("/#{args.parent}")
-          child = parent.children.build(:title => "#{titleify(args.name)}", :breadcrumb => "#{titleify(args.name)}", :slug => "#{slugify(args.name)}", :status_id => 100) 
-          child.parts.build(:content => body_content, :name => "body")
+          parent = ComatosePage.find_by_path("/#{args.parent}")
+          child = parent.children.build(:title => "#{titleify(args.name)}", :slug => "#{slugify(args.name)}", :body => body_content) 
+          #child.parts.build(:content => body_content, :name => "body")
           child.save!
           
           # let the user know the url was created
@@ -83,7 +83,7 @@ Phasellus turpis turpis, scelerisque sit amet, accumsan vel, sollicitudin a, eli
             item_slug = slugify(span.inner_text)
             item_title = titleify(span.inner_text)
             
-            # puts "current tile tag #{item_slug} #{item_title}/"
+            puts "current title tag #{item_slug}"
             
           end
           
@@ -92,11 +92,11 @@ Phasellus turpis turpis, scelerisque sit amet, accumsan vel, sollicitudin a, eli
             lists = li.children_of_type("ul")
             for list in lists
               # recurse through primary navigations children with the given url path of / to match radients page structure
-              search_ul(list, "/", false, title_tag)
+              search_ul(list, "", false, title_tag)
             end
           else
             if !ignore_first_level           
-              existing_page = ComatosePage.find_by_url("#{path}#{item_slug}")
+              existing_page = ComatosePage.find_by_path("#{path}#{item_slug}")
               
               # test if the page exists
               if !existing_page
@@ -105,18 +105,19 @@ Phasellus turpis turpis, scelerisque sit amet, accumsan vel, sollicitudin a, eli
 
 Phasellus turpis turpis, scelerisque sit amet, accumsan vel, sollicitudin a, elit. Pellentesque id erat in ante dictum convallis. Donec sed turpis vel leo blandit suscipit. In ligula urna, pellentesque nec, interdum pharetra, tincidunt a, dolor. Etiam cursus pharetra nisl. Ut aliquam, nisi id varius dignissim, orci ligula posuere nisi, vel vehicula metus elit vitae lorem. Cras urna quam, fermentum eu, aliquam sed, bibendum eget, lorem. Vestibulum congue. Integer blandit magna vitae dolor. Phasellus imperdiet vulputate nibh. Proin pellentesque. Aliquam pulvinar suscipit purus. Donec gravida volutpat nisl. Donec arcu. Curabitur mi ipsum, dapibus id, faucibus in, sagittis non, libero."
 
+                puts "#{path}"
                 # create the page
-                parent = ComatosePage.find_by_url("#{path}")
-                child = parent.children.build(:title => item_title, :breadcrumb => item_title, :slug => item_slug, :status_id => 100) 
-                child.parts.build(:content => body_content, :name => "body")
+                parent = ComatosePage.find_by_path("#{path}")
+                child = parent.children.build(:title => item_title, :slug => item_slug, :body => body_content) 
+                #child.parts.build(:content => body_content, :name => "body")
                 child.save!
                 
                 # output to show that we created the page and link to it
-                puts "created page #{path}#{item_slug}/"
+                puts "created page #{path}/#{item_slug}"
                 
               else
                 # output to show that we the page exists and show the path to it
-                puts "page exists  #{path}#{item_slug}/"
+                puts "page exists  #{path}/#{item_slug}"
               end
               
               # get the children of the page by ul
@@ -124,7 +125,7 @@ Phasellus turpis turpis, scelerisque sit amet, accumsan vel, sollicitudin a, eli
 
               # the loops through the li items in the ordered list to find each child page
               for list in lists
-                search_ul(list, "#{path}#{item_slug.to_s}/", false, title_tag)
+                search_ul(list, "#{path}/#{item_slug.to_s}", false, title_tag)
               end
             end
           end
