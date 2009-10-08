@@ -1,9 +1,9 @@
-h1. Radiant CMS Rake n' Bake Plugin
+h1. Comatose CMS Rake n' Bake Plugin
 
-Rake tasks for use with Radiant CMS designed to work in conjunction with "Freemind":http:freemind.sourceforge.net/ free mind-mapping software.
+Rake tasks for use with Comatose CMS designed to work in conjunction with "Freemind":http:freemind.sourceforge.net/ free mind-mapping software.
 
-To use in Radiant site:
-<pre>git clone git://github.com/scullygroup/radiant-rake-n-bake.git vendor/plugins/rake_n_bake</pre>
+To use in your Rails site:
+<pre>script/plugin install git://github.com/scullygroup/radiant-rake-n-bake.git</pre>
 
 h2. Requirements
 
@@ -13,7 +13,7 @@ harukizaemon-titleizer "http://github.com/harukizaemon/titleizer/":http://github
 
 h2. Create Pages from html files generated with Freemind
 
-Freemind is a mind-mapping software that can be used to create sitemaps for large complicated websites.  Before a site makes it to Radian CMS, create a mindmap of your page structure with child named "primary navigation" with all your Radiant pages named as you would name the title of the page ex: "Shake and Bake"  In these titles anything you put in ()'s will be filtered out by the system, this is by design so you can put comments in the title and they won't transfer over to the Radiant pages. You can then export the mindmap as xhtml with javascript from Freemind. File > Export > As XHTML (Javascript Version), and save that file to your public folder in your Radiant Site.  You can save it as the default the rake task uses "sitemap.html" or a custom name, and then pass the argument in the rake task.
+Freemind is a mind-mapping software that can be used to create sitemaps for large complicated websites.  Before a site makes it to Radian CMS, create a mindmap of your page structure with child named "primary navigation" with all your Comatose pages named as you would name the title of the page ex: "Shake and Bake"  In these titles anything you put in ()'s will be filtered out by the system, this is by design so you can put comments in the title and they won't transfer over to the Comatose pages. You can then export the mindmap as xhtml with javascript from Freemind. File > Export > As XHTML (Javascript Version), and save that file to your public folder in your Comatose Site.  You can save it as the default the rake task uses "sitemap.html" or a custom name, and then pass the argument in the rake task.
 
 If you add to a sitemap.html, the task will let you know those pages existed and only create the new pages.  If you rename a page it will create a new page, it will not rename the existing page and will never remove pages.
 
@@ -24,12 +24,15 @@ If you add to a sitemap.html, the task will let you know those pages existed and
 h2. Create single pages with a rake task
 
 To add a single page without having to use the admin interface:
+<pre><code>
+  rake create:page:child[title,/path-to-a-radiant/page-parent]
+</code></pre>
 
-* rake create:page:child[title,/path-to-a-radiant/page-parent] - creates a single page as a child of the passed url, default page url is "/" This task also fills in 2 paragraphs of lorem ipsum.
+This creates a single page as a child of the passed url, default page url is "/" This task also fills in 2 paragraphs of lorem ipsum.
 
 h2. Why so stuck on Freemind html files?
 
-Freemind mind-maps are quick, easy and free. The generated files are always consistent a therefore much easier to parse and the rake tasks are less error prone.  You could generate the html by hand, but the whole idea behind Rake n' Bake is to get it done ASAP.  With Freemind you can show a client, visually, a list of all their pages and within minutes have them editable in Radiant.  Creating 150 pages with many parent child relationships via the admin interface is no fun.
+Freemind mind-maps are quick, easy and free. The generated files are always consistent a therefore much easier to parse and the rake tasks are less error prone.  You could generate the html by hand, but the whole idea behind Rake n' Bake is to get it done ASAP.  With Freemind you can show a client, visually, a list of all their pages and within minutes have them editable in Comatose.  Creating 150 pages with many parent child relationships via the admin interface is no fun.
 
 h2. Confused?
 
