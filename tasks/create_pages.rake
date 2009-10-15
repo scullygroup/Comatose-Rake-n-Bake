@@ -26,7 +26,7 @@ namespace :create do
 Phasellus turpis turpis, scelerisque sit amet, accumsan vel, sollicitudin a, elit. Pellentesque id erat in ante dictum convallis. Donec sed turpis vel leo blandit suscipit. In ligula urna, pellentesque nec, interdum pharetra, tincidunt a, dolor. Etiam cursus pharetra nisl. Ut aliquam, nisi id varius dignissim, orci ligula posuere nisi, vel vehicula metus elit vitae lorem. Cras urna quam, fermentum eu, aliquam sed, bibendum eget, lorem. Vestibulum congue. Integer blandit magna vitae dolor. Phasellus imperdiet vulputate nibh. Proin pellentesque. Aliquam pulvinar suscipit purus. Donec gravida volutpat nisl. Donec arcu. Curabitur mi ipsum, dapibus id, faucibus in, sagittis non, libero."
 
           parent = ComatosePage.find_by_path("/#{args.parent}")
-          child = parent.children.build(:title => "#{titleify(args.name)}", :slug => "#{slugify(args.name)}", :body => body_content) 
+          child = parent.children.build(:title => "#{titleify(args.name)}", :slug => "#{slugify(args.name)}", :body => body_content, :state => "approved") 
           #child.parts.build(:content => body_content, :name => "body")
           child.save!
           
@@ -104,11 +104,11 @@ Phasellus turpis turpis, scelerisque sit amet, accumsan vel, sollicitudin a, eli
                 body_content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et lacus sit amet enim euismod commodo. Suspendisse sed arcu. Aliquam lacus. Ut ac ipsum. Fusce nunc odio, blandit vel, porttitor vitae, aliquam eget, felis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam vitae ipsum. In urna. Donec ornare erat ullamcorper erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin bibendum nunc vitae neque. Nulla ultrices pulvinar metus. 
 
 Phasellus turpis turpis, scelerisque sit amet, accumsan vel, sollicitudin a, elit. Pellentesque id erat in ante dictum convallis. Donec sed turpis vel leo blandit suscipit. In ligula urna, pellentesque nec, interdum pharetra, tincidunt a, dolor. Etiam cursus pharetra nisl. Ut aliquam, nisi id varius dignissim, orci ligula posuere nisi, vel vehicula metus elit vitae lorem. Cras urna quam, fermentum eu, aliquam sed, bibendum eget, lorem. Vestibulum congue. Integer blandit magna vitae dolor. Phasellus imperdiet vulputate nibh. Proin pellentesque. Aliquam pulvinar suscipit purus. Donec gravida volutpat nisl. Donec arcu. Curabitur mi ipsum, dapibus id, faucibus in, sagittis non, libero."
-
+                
                 puts "#{path}"
                 # create the page
                 parent = ComatosePage.find_by_path("#{path}")
-                child = parent.children.build(:title => item_title, :slug => item_slug, :body => body_content) 
+                child = parent.children.build(:title => item_title, :slug => item_slug, :body => body_content, :state => "approved") 
                 #child.parts.build(:content => body_content, :name => "body")
                 child.save!
                 
